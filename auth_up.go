@@ -13,10 +13,6 @@ var (
 	ErrNeedUserOrPassword = errors.New("need username or password")
 )
 
-func init() {
-	RegisterAuthType("up", UPLogin)
-}
-
 func UPLogin(ctx context.Context, log *log.Helper, c *vault.Client, info *VaultInfo) (*vault.Response[map[string]interface{}], error) {
 	if info.Username == "" || info.Password == "" {
 		return nil, ErrNeedUserOrPassword

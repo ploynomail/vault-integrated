@@ -24,7 +24,7 @@ func (x *VaultInfo) GetRenewLeadSec() int64 {
 // GetRotationLeadSec returns the rotation lead time default 60
 func (x *VaultInfo) GetRotationLeadSec() int64 {
 	if x.RotationLeadSec == 0 {
-		return 60
+		return 300
 	}
 	return x.RotationLeadSec
 }
