@@ -9,11 +9,8 @@ import (
 )
 
 const (
-	UPAUTH int = iota
-	AppRoleAUTH
-	JWTAUTH
-	TokenAUTH
-	K8SAUTH
+	AuthTypeUP  = "up"
+	AuthTypeK8S = "k8s"
 )
 
 type keyType int
@@ -55,7 +52,8 @@ func NewVault(info *VaultInfo, logger log.Logger) (*Vault, func(), error) {
 		rotateTicker:          time.NewTicker(time.Second * time.Duration(info.GetRotationLeadSec()-5)),
 	}
 	// Register auth type
-	RegisterAuthType("up", UPLogin)
+	RegisterAuthType(AuthTypeUP, UPLogin)
+	RegisterAuthType(AuthTypeK8S, K8SLogin)
 	vault.AuthToken, err = AuthTypeMap[info.AuthType](ctx, vault.log, client, info)
 	if err != nil {
 		return nil, nil, err
