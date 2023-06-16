@@ -3,7 +3,7 @@ package vaultintegrated
 import (
 	"context"
 	"encoding/json"
-
+	"fmt"
 	"time"
 
 	"github.com/hashicorp/vault-client-go/schema"
@@ -55,6 +55,7 @@ func (v *Vault) RenewLeases(ctx context.Context) {
 				v.log.Errorf("renew cycle: error reading lease: %v", err)
 				continue
 			}
+			fmt.Println(rs.Data.Ttl)
 			ttl := rs.Data.Ttl
 			if ttl == 0 {
 				v.log.Debugf("renew cycle: lease %s is not renewable", y.LeaseID)

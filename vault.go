@@ -19,8 +19,9 @@ const (
 type keyType int
 
 var (
-	AuthKey     = keyType(0)
-	DatabaseKey = keyType(1)
+	AuthKey        = keyType(0)
+	DatabaseKey    = keyType(1)
+	AliCloudAKSKey = keyType(2)
 )
 
 type Vault struct {

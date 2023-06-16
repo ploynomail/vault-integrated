@@ -7,11 +7,7 @@ import (
 )
 
 type vault_test_var struct {
-	info  *VaultInfo
-	log   log.Logger
-	v     *Vault
-	err   error
-	clean func()
+	info *VaultInfo
 }
 
 var vault_test_var_vautl_factory_func *vault_test_var = &vault_test_var{

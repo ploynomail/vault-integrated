@@ -36,5 +36,4 @@ func (k *KVSecret) ReadCredentials(ctx context.Context, opts ...vault.RequestOpt
 
 // RotateCredential KV Secret don't need to rotate, becuase it's not dynamic, so just return
 func (k *KVSecret) RotateCredentials(context.Context, *Vault) {
-	return
 }
