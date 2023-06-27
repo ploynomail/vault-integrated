@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/vault-client-go"
+	"github.com/hashicorp/vault-client-go/schema"
 )
 
 type KVSecret struct {
@@ -36,4 +37,12 @@ func (k *KVSecret) ReadCredentials(ctx context.Context, opts ...vault.RequestOpt
 
 // RotateCredential KV Secret don't need to rotate, becuase it's not dynamic, so just return
 func (k *KVSecret) RotateCredentials(context.Context, *Vault) {
+}
+
+func (k *KVSecret) WriteCredentials(ctx context.Context, keyPair map[string]interface{}, opts ...vault.RequestOption) error {
+	opts = append(opts, vault.WithMountPath(k.MountPath))
+	_, err := k.v.client.Secrets.KvV2Write(ctx, k.Key, schema.KvV2WriteRequest{
+		Data: keyPair,
+	}, opts...)
+	return err
 }
