@@ -19,7 +19,7 @@ var vault_test_var_vautl_read_KVSecrets *vault_test_var = &vault_test_var{
 
 func TestVaultReadKVSecrets(t *testing.T) {
 	ctx := context.Background()
-	v, cleanup, err = NewVault(vault_test_var_vautl_read_KVSecrets.info, log_test)
+	v, cleanup, err = NewVault(vault_test_var_vautl_read_KVSecrets.info, log_test, true)
 	if err != nil {
 		t.Fatal(err)
 	}

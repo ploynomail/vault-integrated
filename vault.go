@@ -33,7 +33,7 @@ type Vault struct {
 	rotateTicker          *time.Ticker
 }
 
-func NewVault(info *VaultInfo, logger log.Logger) (*Vault, func(), error) {
+func NewVault(info *VaultInfo, logger log.Logger, isRevoke bool) (*Vault, func(), error) {
 	client, err := vault.New(vault.WithAddress(info.Dsn))
 	if err != nil {
 		return nil, nil, err
@@ -63,11 +63,10 @@ func NewVault(info *VaultInfo, logger log.Logger) (*Vault, func(), error) {
 		return nil, nil, err
 	}
 
-	// Register vault secrets
-	// vault.RegisterVaultSecrets(&DatabaseCredentials{})
-	// vault.RegisterVaultSecrets(&KVSecret{})
 	cleanup := func() {
-		vault.ReovkeAllCredentials(ctx)
+		if isRevoke {
+			vault.ReovkeAllCredentials(ctx)
+		}
 		client.ClearToken()
 		vault.log.Info("Vault client token cleared")
 		vault.renewTicker.Stop()

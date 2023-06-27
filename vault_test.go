@@ -28,7 +28,7 @@ var cleanup func()
 var err error
 
 func TestVaultFactoryFunc(t *testing.T) {
-	v, cleanup, err = NewVault(vault_test_var_vautl_factory_func.info, log_test)
+	v, cleanup, err = NewVault(vault_test_var_vautl_factory_func.info, log_test, true)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -19,7 +19,7 @@ var vault_test_var_vautl_read_alicloudAK *vault_test_var = &vault_test_var{
 
 func TestVaultReadAlicloudAK(t *testing.T) {
 	ctx := context.Background()
-	v, cleanup, err = NewVault(vault_test_var_vautl_read_alicloudAK.info, log_test)
+	v, cleanup, err = NewVault(vault_test_var_vautl_read_alicloudAK.info, log_test, true)
 	if err != nil {
 		t.Fatal(err)
 	}

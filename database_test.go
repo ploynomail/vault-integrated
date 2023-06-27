@@ -20,7 +20,7 @@ var vault_test_var_vautl_read_DatabaseCredentials *vault_test_var = &vault_test_
 
 func TestVaultReadDatabaseCredentials(t *testing.T) {
 	ctx := context.Background()
-	v, cleanup, err = NewVault(vault_test_var_vautl_read_DatabaseCredentials.info, log_test)
+	v, cleanup, err = NewVault(vault_test_var_vautl_read_DatabaseCredentials.info, log_test, true)
 	if err != nil {
 		t.Fatal(err)
 	}
