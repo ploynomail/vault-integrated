@@ -11,6 +11,7 @@ import (
 type DatabaseCredentials struct {
 	Username  string `json:"username"`
 	Password  string `json:"password"`
+	TTL       int    `json:"ttl"`
 	v         *Vault
 	MountPath string
 	RoleName  string
@@ -34,6 +35,18 @@ func (d *DatabaseCredentials) ReadCredentials(ctx context.Context, opts ...vault
 	d.v.toBeUpdateCredentials[DatabaseKey] = append(d.v.toBeUpdateCredentials[DatabaseKey], resp)
 	d.Username = resp.Data["username"].(string)
 	d.Password = resp.Data["password"].(string)
+	return nil
+}
+
+func (d *DatabaseCredentials) ReadStaticCredentials(ctx context.Context, opts ...vault.RequestOption) error {
+	resp, err := d.v.client.Secrets.DatabaseReadStaticRoleCredentials(ctx, d.RoleName, opts...)
+	if err != nil {
+		d.v.log.Errorf("Get Database Static Crednetials Err:%v", err)
+	}
+	d.v.toBeUpdateCredentials[DatabaseKey] = append(d.v.toBeUpdateCredentials[DatabaseKey], resp)
+	d.Username = resp.Data["username"].(string)
+	d.Password = resp.Data["password"].(string)
+	d.TTL = resp.Data["ttl"].(int)
 	return nil
 }
 
