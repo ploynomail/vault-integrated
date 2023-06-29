@@ -2,6 +2,7 @@ package vaultintegrated
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/hashicorp/vault-client-go"
 	"github.com/hashicorp/vault-client-go/schema"
@@ -11,7 +12,7 @@ import (
 type DatabaseCredentials struct {
 	Username  string `json:"username"`
 	Password  string `json:"password"`
-	TTL       int    `json:"ttl"`
+	TTL       int64  `json:"ttl"`
 	v         *Vault
 	MountPath string
 	RoleName  string
@@ -46,7 +47,11 @@ func (d *DatabaseCredentials) ReadStaticCredentials(ctx context.Context, opts ..
 	d.v.toBeUpdateCredentials[DatabaseKey] = append(d.v.toBeUpdateCredentials[DatabaseKey], resp)
 	d.Username = resp.Data["username"].(string)
 	d.Password = resp.Data["password"].(string)
-	d.TTL = resp.Data["ttl"].(int)
+	ttl, err := resp.Data["ttl"].(json.Number).Int64()
+	if err != nil {
+		d.v.log.Errorf("renew cycle: error parsing ttl: %v", err)
+	}
+	d.TTL = ttl
 	return nil
 }
 
