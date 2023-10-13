@@ -87,7 +87,7 @@ database: 数据库认证，使用方法参照：database_test.go
 
 ### 6. 自定义secret
 实现下列接口，实例化后注册到Vault中即可
-
+测试PR
 ```go
 type VaultSecrets interface {
 	ReadCredentials(ctx context.Context, opts ...vault.RequestOption) error
